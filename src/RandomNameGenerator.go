@@ -3,57 +3,66 @@
 
   import "flag"
   import "fmt"
-  import "math/rand"
+ // import "math/rand"
+  import "time"
 
-  type genarator interface {
-	  nameGenarator() string
-	  adjectiveGenarator() string
+  var dict map[string]map[string][]string = map[string]map[string][]string{
+		"tr": map[string][]string{
+			"name":[]string{
+				"Ali",
+				"Veli",
+				"Can",
+				"Yıldırım",
+				"İsmet",
+			},
+			"adjective":[]string{
+				"Uzun",
+				"Kısa",
+				"Sinirli",
+				"Komik",
+				"Sevecen",
+				"Gergin",
+			},
+		},
+	}
+
+
+  type generator interface {
+	  nameGenerator() string
+	  adjectiveGenerator() string
   }
-  type tr struct {
+
+  type lang struct {
 	  name, adjective []string
   }
-  type en struct {
-	  name, adjective []string
-  }
-  
-  func (s tr) nameGenarator() string  {
-	  return s.name[rand.Intn(2)]   
-  }
-  
-  func (s tr) adjectiveGenarator() string {
-	  return s.adjective[rand.Intn(2)]
+
+  func (s lang) nameGenerator() string {
+	  return s.name[int(time.Now().UnixNano())%len(dict["tr"]["name"])]
   }
 
-  func (c en) nameGenarator() string  {
-	  return  c.name[0]
-  }
-  
-  func (c en) adjectiveGenarator() string {
-	  return  c.adjective[0]
+  func (s lang) adjectiveGenerator() string {
+	  return s.adjective[int(time.Now().UnixNano())%len(dict["tr"]["adjective"])]
   }
 
-  func show (g genarator) {
-	  fmt.Println(g.nameGenarator() )
-	  fmt.Println(g.adjectiveGenarator())
-	  
+  func show (g generator) {
+	  fmt.Println(g.nameGenerator())
+	  fmt.Println(g.adjectiveGenerator())
   }
 
 
   func main() {
-	  
+
 	  langPtr := flag.String("lang", "tr", "a language")
 	  numPtr := flag.Int("numb", 5, "an total")
-	  
+
 	  flag.Parse()
 
 	  fmt.Println("word:", *langPtr)
 	  fmt.Println("numb:", *numPtr)
 
-          n := []string{"Ali","Veli","Can","Kalem"}
-	  k := []string{"Uzun", "Kisa","Duvar", "Kitap"}
+          
 
-	  s := tr{name: n, adjective: k}
+	  s := lang{name: dict["tr"]["name"], adjective: dict["tr"]["adjective"]}
           show(s)
-
   }
 
