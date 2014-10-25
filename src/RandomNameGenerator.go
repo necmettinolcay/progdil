@@ -5,7 +5,8 @@
   import "fmt"
  // import "math/rand"
   import "time"
-
+  
+  var rnd int = int(time.Now().UnixNano())
   var dict map[string]map[string][]string = map[string]map[string][]string{
 		"tr": map[string][]string{
 			"name":[]string{
@@ -37,11 +38,11 @@
   }
 
   func (s lang) nameGenerator() string {
-	  return s.name[int(time.Now().UnixNano())%len(dict["tr"]["name"])]
+	  return s.name[rnd%len(dict["tr"]["name"])]
   }
 
   func (s lang) adjectiveGenerator() string {
-	  return s.adjective[int(time.Now().UnixNano())%len(dict["tr"]["adjective"])]
+	  return s.adjective[rnd%len(dict["tr"]["adjective"])]
   }
 
   func show (g generator) {
