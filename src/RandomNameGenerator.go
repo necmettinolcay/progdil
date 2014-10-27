@@ -9,10 +9,8 @@
 
  
   var langPtr *string = flag.String("lang", "tr", "a language")
-  var numbPtr *int = flag.Int("numb", 1, "an total")
+  var numbPtr *int = flag.Int("numb", 5, "an total")
   var elements = make(map[string]string)
-
-  var rnd int = int(time.Now().UnixNano())
   var dict = map[string]map[string][]string {
 		"en": {
 			"name": {
@@ -61,12 +59,14 @@
 	  name, adjective []string
   }
 
+  
+
   func (s lang) nameGenerator() string {
-	  return s.name[rnd%len(dict[*langPtr]["name"])]
+	  return s.name[randomNumber() % len(dict[*langPtr]["name"])]
   }
 
   func (s lang) adjectiveGenerator() string {
-	  return s.adjective[rnd%len(dict[*langPtr]["adjective"])]
+	  return s.adjective[randomNumber() % len(dict[*langPtr]["adjective"])]
   }
 
   func elementsAdd(g generator) {
@@ -85,6 +85,12 @@
 	  for pName, _ := range elements {
 		  fmt.Println(pName)
 	  }
+  }
+
+  func randomNumber() int {
+
+	  return int(time.Now().UnixNano())
+
   }
 
 
