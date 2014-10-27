@@ -12,10 +12,10 @@
   }
 
  func (a *rect) ReplaceUnderscoreWithSpace() {
-	fmt.Println(a.arg)
-	//r, _ := regexp.Compile("[a-z]+_+[a-z]")
 	
-	r, _ := regexp.Compile("[a-z]+_+\\w*[^_]")
+	 fmt.Println(a.arg)
+	
+	r, _ := regexp.Compile("[a-zA-Z0-9]+_+\\w*[^_]")
 	fmt.Println(r.ReplaceAllString(a.arg, s.Replace(r.FindString(a.arg), "_", " " , -1)))
 
  }

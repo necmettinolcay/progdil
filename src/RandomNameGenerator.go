@@ -5,7 +5,8 @@
   import "fmt"
  // import "math/rand"
   import "time"
-  
+ 
+  var elements = make(map[string]string)
   var rnd int = int(time.Now().UnixNano())
   var dict map[string]map[string][]string = map[string]map[string][]string{
 		"tr": map[string][]string{
@@ -28,6 +29,7 @@
 	}
 
 
+
   type generator interface {
 	  nameGenerator() string
 	  adjectiveGenerator() string
@@ -44,6 +46,9 @@
   func (s lang) adjectiveGenerator() string {
 	  return s.adjective[rnd%len(dict["tr"]["adjective"])]
   }
+
+  func elementsAdd() {
+	  tamlama := g.nameGenerator() +  " " + g.adjectiveGenerator()
 
   func show (g generator) {
 	  fmt.Println(g.nameGenerator())
