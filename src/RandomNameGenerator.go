@@ -3,7 +3,7 @@
 
   import "flag"
   import "fmt"
- // import "math/rand"
+  import "math/rand"
   import "time"
   import "strings"
 
@@ -62,11 +62,11 @@
   
 
   func (s lang) nameGenerator() string {
-	  return s.name[randomNumber() % len(dict[*langPtr]["name"])]
+	  return s.name[randomNumber(len(dict[*langPtr]["name"]))]
   }
 
   func (s lang) adjectiveGenerator() string {
-	  return s.adjective[randomNumber() % len(dict[*langPtr]["adjective"])]
+	  return s.adjective[randomNumber(len(dict[*langPtr]["adjective"]))]
   }
 
   func elementsAdd(g generator) {
@@ -87,9 +87,9 @@
 	  }
   }
 
-  func randomNumber() int {
-
-	  return int(time.Now().UnixNano())
+  func randomNumber(limit int) int {
+	  rand.Seed(time.Now().UnixNano())
+	  return rand.Intn(limit)
 
   }
 
@@ -98,12 +98,8 @@
 
 
 	  flag.Parse()
-
-	  fmt.Println("word:", *langPtr)
-	  fmt.Println("numb:", *numbPtr)
-
-	  s := lang{name: dict[*langPtr]["name"], adjective: dict[*langPtr]["adjective"]}
-	  elementsAdd(s)
+          selectedLang := lang{name: dict[*langPtr]["name"], adjective: dict[*langPtr]["adjective"]}
+	  elementsAdd(selectedLang)
           show()
   }
 
