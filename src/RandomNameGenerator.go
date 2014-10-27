@@ -13,16 +13,16 @@
   var elements = make(map[string]string)
 
   var rnd int = int(time.Now().UnixNano())
-  var dict map[string]map[string][]string = map[string]map[string][]string{
-		"en": map[string][]string{
-			"name":[]string{
+  var dict = map[string]map[string][]string {
+		"en": {
+			"name": {
 				"Lion",
 				"Leopard",
 				"Bird",
 				"Bear",
 				"Monkey",
 			},
-			"adjective":[]string{
+			"adjective": {
 				"Mountain",
 				"Grazzy",
 				"Crazy",
@@ -31,15 +31,15 @@
 				"Helpness",
 			},
 		},
-  		"tr": map[string][]string{
-			"name":[]string{
+  		"tr": {
+			"name": {
 				"Ali",
 				"Veli",
 				"Can",
 				"Yıldırım",
 				"İsmet",
 			},
-			"adjective":[]string{
+			"adjective": {
 				"Uzun",
 				"Kısa",
 				"Sinirli",
