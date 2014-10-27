@@ -5,11 +5,33 @@
   import "fmt"
  // import "math/rand"
   import "time"
+  import "strings"
+
  
+  var langPtr *string = flag.String("lang", "tr", "a language")
+  var numbPtr *int = flag.Int("numb", 1, "an total")
   var elements = make(map[string]string)
+
   var rnd int = int(time.Now().UnixNano())
   var dict map[string]map[string][]string = map[string]map[string][]string{
-		"tr": map[string][]string{
+		"en": map[string][]string{
+			"name":[]string{
+				"Lion",
+				"Leopard",
+				"Bird",
+				"Bear",
+				"Monkey",
+			},
+			"adjective":[]string{
+				"Mountain",
+				"Grazzy",
+				"Crazy",
+				"Nervius",
+				"Funny",
+				"Helpness",
+			},
+		},
+  		"tr": map[string][]string{
 			"name":[]string{
 				"Ali",
 				"Veli",
@@ -40,35 +62,42 @@
   }
 
   func (s lang) nameGenerator() string {
-	  return s.name[rnd%len(dict["tr"]["name"])]
+	  return s.name[rnd%len(dict[*langPtr]["name"])]
   }
 
   func (s lang) adjectiveGenerator() string {
-	  return s.adjective[rnd%len(dict["tr"]["adjective"])]
+	  return s.adjective[rnd%len(dict[*langPtr]["adjective"])]
   }
 
-  func elementsAdd() {
-	  tamlama := g.nameGenerator() +  " " + g.adjectiveGenerator()
+  func elementsAdd(g generator) {
+	  
+	  for *numbPtr > 0 {
+		  projectName := strings.Join([]string{g.adjectiveGenerator(),g.nameGenerator()}, " " )
+		  if  _, ok := elements[projectName]; !ok {
+			  elements[projectName] = "exist"
+			  *numbPtr --
+		  }
+	  }
+  }
+  
+  func show() {
 
-  func show (g generator) {
-	  fmt.Println(g.nameGenerator())
-	  fmt.Println(g.adjectiveGenerator())
+	  for pName, _ := range elements {
+		  fmt.Println(pName)
+	  }
   }
 
 
   func main() {
 
-	  langPtr := flag.String("lang", "tr", "a language")
-	  numPtr := flag.Int("numb", 5, "an total")
 
 	  flag.Parse()
 
 	  fmt.Println("word:", *langPtr)
-	  fmt.Println("numb:", *numPtr)
+	  fmt.Println("numb:", *numbPtr)
 
-          
-
-	  s := lang{name: dict["tr"]["name"], adjective: dict["tr"]["adjective"]}
-          show(s)
+	  s := lang{name: dict[*langPtr]["name"], adjective: dict[*langPtr]["adjective"]}
+	  elementsAdd(s)
+          show()
   }
 
