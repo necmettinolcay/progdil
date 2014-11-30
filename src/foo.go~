@@ -9,23 +9,23 @@
 
   var langPtr *string = flag.String("lang", "tr", "a language")
   var numbPtr *int = flag.Int("numb", 5, "an total")
-  var path string = "../ProjectNames/" + *langPtr + "/" 
+  var elements = make(map[string]string)
   var dict = map[string]map[string][]string {
 		"en": {
 			"name": {
 				"Lion",
 				"Leopard",
 				"Bird",
-				//"Bear",
-				//"Monkey",
+				"Bear",
+				"Monkey",
 			},
 			"adjective": {
 				"Mountain",
 				"Grazzy",
 				"Crazy",
-				//"Nervius",
-				//"Funny",
-				//"Helpness",
+				"Nervius",
+				"Funny",
+				"Helpness",
 			},
 		},
 		"tr": {
@@ -91,29 +91,24 @@
   }
 
   func elementsAdd(g generator) {
-	  elements := []string {}
-	  dirNames := readDirNames(path)
+
 	  for *numbPtr > 0 {
 		  projectName := strings.Join([]string{g.adjectiveGenerator(),g.nameGenerator()}, " " )
-		  existPname := controlName(elements, projectName)
-		  existDir := controlName(dirNames, projectName)
-		  if  existPname == false && existDir == false {
-			  elements = append(elements, projectName)
+		  if  _, ok := elements[projectName]; !ok {
+			  elements[projectName] = "exist"
 			  *numbPtr --
 		  }
 	  }
-	  show(elements)
-	  createDir(elements)
   }
 
-  func show(list []string) {
+  func show() {
 
-	  for _, pName := range elements {
+	  for pName, _ := range elements {
 		  fmt.Println(pName)
 	  }
 
   }
-  func readDir(dirname string) ([]string, error) {
+  func readDirNames(dirname string) ([]string, error) {
    		f, err := os.Open(dirname)
    		if err != nil {
    			return nil, err
@@ -124,12 +119,7 @@
    			return nil, err
    		}
    		sort.Strings(names)
-   		return names, nil	
-}
-  func createDir(list []string, pName string) {
-	os.Mkdir(path + pName, 0777)
-
-}
+   		return names, nil	}
  func controlName (list []string, pName string) bool {
           
           sort.Strings(list)
@@ -143,6 +133,12 @@
 
 
   }
+  func controlName (list []string, pName string) bool {
+
+}
+
+
+
   func randomNumber(limit int) int {
 
 	  rand.Seed(time.Now().UnixNano())
@@ -155,7 +151,7 @@
 	  flag.Parse() //Bayrakların değerlerini öğrenmek için Parse() metodu kullanıldı . ör: --lang = en
           selectedLang := lang{name: dict[*langPtr]["name"], adjective: dict[*langPtr]["adjective"]}
 	  elementsAdd(selectedLang)
-          
+          show()
 
   }
 
