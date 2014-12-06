@@ -10,9 +10,11 @@
   func (m *MyString) ReplaceUnderscoreWithSpace() {
       fmt.Println(m.arg)
       trimString := s.Trim(m.arg, "_")
-      replaceString := s.Replace(trimString, "_", " ", -1)
-      finalString := s.Replace(m.arg, trimString, replaceString, -1)
-      Show(finalString)
+      if (trimString != "") {
+	      replaceString := s.Replace(trimString, "_", " ", -1)
+	      m.arg = s.Replace(m.arg, trimString, replaceString, -1)
+     }
+      Show(m.arg)
   }
 
   func Show (finalString string) {

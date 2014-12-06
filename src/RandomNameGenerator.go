@@ -93,7 +93,7 @@
 	  existPname := controlName(elements, projectName)
 	  existDir := controlName(dirNames, projectName)
 
-	  if  existPname == false && existDir == false {
+	  if  !existPname  && !existDir  {
 	      elements = append(elements, projectName)
 	      *numbPtr --
 	  }
