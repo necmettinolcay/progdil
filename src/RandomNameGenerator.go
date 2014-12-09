@@ -1,7 +1,7 @@
   package main
   import (
            "flag"
-	   "fmt"
+	  // "fmt"
 	   "math/rand"
 	   "time"
 	   "strings"
@@ -11,33 +11,52 @@
 
   var langPtr *string = flag.String("lang", "tr", "a language")
   var numbPtr *int = flag.Int("numb", 5, "an total")
+
   var dict = map[string]map[string][]string {
 		"en": {
-			"name": {
-				"Lion",
-				"Leopard",
-				"Bird",
-				"Bear",
-				"Monkey",
-			},
 			"adjective": {
-				"Mountain",
-				"Grazzy",
-				"Crazy",
-				"Nervius",
-				"Funny",
-				"Helpness",
+				"Attractive",
+				"Beatiful",
+				"Clean",
+				"Dark",
+				"Fat",
+				"Great",
+				"High",
+				"Little",
+				"Misty",
+				"Plain",
+				"Round",
+				"Short",
+				"Tall",
+				"Ugly",
+				"Wide",
+			},
+			"name": {
+				"anvil",
+				"balloon",
+				"candle",
+				"deodorant",
+				"eraser",
+				"fairy",
+				"gel",
+				"hockey",
+				"ice",
+				"javelin",
+				"keychain",
+				"lace",
+				"mallet",
+				"nail",
+				"picture",
+				"quilt",
+				"radio",
+				"sandpaper",
+				"thermometer",
+				"vase",
+				"wheelbarrow",
+				"zipper",
 			},
 		},
 		"tr": {
-			"name": {
-				"Ali",
-				"Atay",
-				"Veli",
-				"Can",
-				"Yıldırım",
-				"İsmet",
-			},
 			"adjective": {
 				"Abone",
 				"Aceleci",
@@ -47,7 +66,6 @@
 				"Coşkun",
 				"Çemberli",
 				"Damgalı",
-				"Demokrat",
 				"Eğitimli",
 				"Gergin",
 				"Ilımlı",
@@ -61,8 +79,32 @@
 				"Sinirli",
 				"Şakacı",
 				"Uzun",
-
 			},
+			"name": {
+				"anahtarlık",
+				"balon",
+				"buz",
+				"cirit",
+				"dantel",
+				"deodorant",
+				"el arabası",
+				"fermuar",
+				"hokey",
+				"jel",
+				"mum",
+				"örs",
+				"peri",
+				"radyo",
+				"resim",
+				"silgi",
+				"termometre",
+				"tırnak",
+				"tokmak",
+				"vazo",
+				"yorgan",
+				"zımpara",
+			},
+
 		},
 	}
 
@@ -71,42 +113,33 @@
       adjectiveGenerator() string
   }
 
-  type lang struct {
+  type adjectiveClause struct {
       name, adjective []string
   }
 
-  func (s lang) nameGenerator() string {
+  func (s adjectiveClause) nameGenerator() string {
       return s.name[randomNumber(len(dict[*langPtr]["name"]))]
   }
 
-  func (s lang) adjectiveGenerator() string {
+  func (s adjectiveClause) adjectiveGenerator() string {
       return s.adjective[randomNumber(len(dict[*langPtr]["adjective"]))]
   }
 
-  func elementsAdd(g generator) {
+  func elementAdd(g generator) []string {
       elements := []string {}
-      path :=  createPath()
+      path :=  getPath()
       dirNames, _ := readDir(path)
 
       for *numbPtr > 0 {
           projectName := strings.Join([]string{g.adjectiveGenerator(),g.nameGenerator()}, " " )
-	  existPname := controlName(elements, projectName)
-	  existDir := controlName(dirNames, projectName)
-
-	  if  !existPname  && !existDir  {
+	  if  !(isExist(elements, projectName))  && !(isExist(dirNames, projectName))  {
 	      elements = append(elements, projectName)
 	      *numbPtr --
 	  }
       }
 
-          show(elements)
-	  createDir(path, elements)
-  }
-
-  func show(list []string) {
-      for _, pName := range list {
-          fmt.Println(pName)
-      }
+      createDir(path, elements)
+      return elements
   }
 
   func readDir(dirname string) ([]string, error) {
@@ -133,29 +166,26 @@
 
   }
 
-  func createPath() string {
+  func getPath() string {
       return "../ProjectNames/" + *langPtr + "/"
   }
 
- func controlName (list []string, pName string) bool {
+ func isExist (list []string, pName string) bool {
      sort.Strings(list)
      i := sort.SearchStrings(list, pName)
 
-     if  i < len(list) && list[i] == pName {
-         return true
-     } else {
-           return false
-     }
+     return  i < len(list) && list[i] == pName
   }
 
   func randomNumber(limit int) int {
       rand.Seed(time.Now().UnixNano())
       return rand.Intn(limit)
-      }
+  }
 
-  func main() {
-      flag.Parse() //Bayrakların değerlerini öğrenmek için Parse() metodu kullanıldı . ör: --lang = en
-      selectedLang := lang{name: dict[*langPtr]["name"], adjective: dict[*langPtr]["adjective"]}
-      elementsAdd(selectedLang)
+  func generateName()[]string {
+      flag.Parse() //Bayrakların değerlerini öğrenmek için Parse() metodu kullanıldı.
+      langOfClause := adjectiveClause{name: dict[*langPtr]["name"], adjective: dict[*langPtr]["adjective"]}
+      list := elementAdd(langOfClause)
+      return list
   }
 
