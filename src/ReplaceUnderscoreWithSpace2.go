@@ -4,20 +4,22 @@
   import s "strings"
 
   type MyString struct {
-	  arg string
+	arg string
   }
 
   func (m *MyString) ReplaceUnderscoreWithSpace() {
       fmt.Println(m.arg)
       trimString := s.Trim(m.arg, "_")
+
       if (trimString != "") {
-	      replaceString := s.Replace(trimString, "_", " ", -1)
-	      m.arg = s.Replace(m.arg, trimString, replaceString, -1)
-     }
-      Show(m.arg)
+          replaceString := s.Replace(trimString, "_", " ", -1)
+          m.arg = s.Replace(m.arg, trimString, replaceString, -1)
+      }
+
+      show(m.arg)
   }
 
-  func Show (finalString string) {
+  func show (finalString string) {
       fmt.Println(finalString)
   }
 
@@ -25,6 +27,4 @@
       arg:= MyString{arg: os.Args[1]}
       arg.ReplaceUnderscoreWithSpace()
   }
-
-
 

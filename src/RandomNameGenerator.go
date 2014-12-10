@@ -103,7 +103,6 @@
 				"yorgan",
 				"zımpara",
 			},
-
 		},
 	}
 
@@ -143,17 +142,18 @@
 
   func readDir(dirname string) ([]string, error) {
       f, err := os.Open(dirname)
+
       if err != nil {
           return nil, err
       }
-
+      
       names, err := f.Readdirnames(-1)
       f.Close()
-
+      
       if err != nil {
           return nil, err
       }
-
+      
       sort.Strings(names)
       return names, nil
   }
@@ -162,17 +162,15 @@
       for _, pName := range list {
           os.Mkdir(path + pName, 0777)
       }
-
   }
 
   func getPath() string {
       return "../ProjectNames/" + *langPtr + "/"
   }
 
- func isExist (list []string, pName string) bool {
+  func isExist (list []string, pName string) bool {
      sort.Strings(list)
      i := sort.SearchStrings(list, pName)
-
      return  i < len(list) && list[i] == pName
   }
 
