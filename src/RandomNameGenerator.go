@@ -10,7 +10,6 @@
 
   var langPtr *string = flag.String("lang", "tr", "a language")
   var numbPtr *int = flag.Int("numb", 5, "an total")
-
   var dict = map[string]map[string][]string {
 		"en": {
 			"adjective": {

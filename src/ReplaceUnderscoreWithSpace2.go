@@ -7,8 +7,7 @@
 	arg string
   }
 
-  func (m *MyString) ReplaceUnderscoreWithSpace() {
-      fmt.Println(m.arg)
+  func (m *MyString) ReplaceUnderscoreWithSpace() string {
       trimString := s.Trim(m.arg, "_")
 
       if (trimString != "") {
@@ -16,7 +15,7 @@
           m.arg = s.Replace(m.arg, trimString, replaceString, -1)
       }
 
-      show(m.arg)
+      return m.arg
   }
 
   func show (finalString string) {
@@ -25,6 +24,7 @@
 
   func main() {
       arg:= MyString{arg: os.Args[1]}
-      arg.ReplaceUnderscoreWithSpace()
+      fmt.Println(arg)
+      fmt.Println(arg.ReplaceUnderscoreWithSpace())
   }
 
