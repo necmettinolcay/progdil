@@ -1,23 +1,21 @@
-  package main
-  import "os"
-  import "fmt"
-  import s "strings"
-  import "regexp"
+package main
 
-  type MyString struct {
-	  arg string
-  }
+import "os"
+import "fmt"
+import s "strings"
+import "regexp"
 
-  func (m *MyString) ReplaceUnderscoreWithSpace() {
-      fmt.Println(m.arg)
-      r, _ := regexp.Compile("[a-zA-Z0-9]+_+\\w*[^_]")
-      fmt.Println(r.ReplaceAllString(m.arg, s.Replace(r.FindString(m.arg), "_", " " , -1)))
-  }
+type MyString struct {
+	arg string
+}
 
-  func main() {
-      arg:= MyString{arg: os.Args[1]}
-      arg.ReplaceUnderscoreWithSpace()
-  }
+func (m *MyString) ReplaceUnderscoreWithSpace() {
+	fmt.Println(m.arg)
+	r, _ := regexp.Compile("[a-zA-Z0-9]+_+\\w*[^_]")
+	fmt.Println(r.ReplaceAllString(m.arg, s.Replace(r.FindString(m.arg), "_", " ", -1)))
+}
 
-
-
+func main() {
+	arg := MyString{arg: os.Args[1]}
+	arg.ReplaceUnderscoreWithSpace()
+}
